@@ -1,0 +1,77 @@
+
+bitcomet的种子库下载方法
+康康 康康 47 天前 标签：bitcometinfohash加密种子库
+
+网络中有很多的种子库资源，比如迅雷种子库，比如torcache.net等，不过要说资源最丰富的，我觉得应该是bitcomet种子库了，毕竟其拥有一个客户端，用户下载种子时将种子附带保存到种子库中，那将是海量的，所以呢，我的DHT程序也就使用了bitcomet作为种子库的其中之一！
+
+bitcomet种子获取url地址格式为：http://torrent-cache.bitcomet.org:36869/get_torrent?info_hash=004f50950256e66f128d528d0773fdefbc298cce&size=226920869&key=44a2a41842ff15b47cf54c1470356b32cba26730
+
+其中004f50950256e66f128d528d0773fdefbc298cce为infohash，但关键位置则是key=44a2a41842ff15b47cf54c1470356b32cba26730，这里是使用infohash进行加密过的数据，所以，我们如果要从bitcomet中下载种子文件，必须要进行对应的加密，而这个加密要如何加密呢？
+
+原本网上有网友已经给出了一个编译好的库来调用，直接调用就可以生成bitcomet加密过后的种子url，不过程序中外带一个库文件，让我总感觉是有点多余，那为何不自己直接写在程序中呢？
+
+可惜那位网友已经忘记了源码中是如何进行hash加密了，所以想要写也就没有任何的方法，不过还好，总算是被康康给研究出来了，心情是格外的激动啊！
+
+加密流程如下：
+
+    将infohash转换为小写格式
+    对infohash进行循环处理，循环长度为infohash的一半，也就是20
+    循环中，每次截取infohash的两个字符，并转换为十六进制数字格式
+    将获取到的信息首尾分别加上”bc”与”torrent”
+    最后将数据进行sha1加密得出的结果转换字符串就是
+
+明白了流程，剩下的就是使用代码来实现了，这里给出一份Golang的代码：
+
+    // 获取bitcomet种子库key
+    func GetKey(hash string) string {
+        // 将infohash转换为小写
+        hash = strings.ToLower(hash)
+        // 获取infohash一半的长度
+        count := len(hash) / 2
+        // 定义一个byte列表
+        var hashHex []byte
+        // 循环将infohash编码
+        for i := 0; i &lt; count; i++ {
+            // 每次截取2个字符, 并转换为十六进制数字
+            val, _ := strconv.ParseInt(hash[i*2:i*2+2], 16, 0)
+            // 将十六进制数字转换为byte格式并加入列表中
+            hashHex = append(hashHex, byte(val))
+        }
+        // 定义bitcomet的编码字符串
+        bc := "bc" + string(hashHex) + "torrent"
+        // 对字符串进行sha1编码
+        t := sha1.New()
+        io.WriteString(t, bc)
+        key := fmt.Sprintf("%x", t.Sum(nil))
+        // 返回key
+        return key
+    }
+
+上一篇
+大家期待已久的DHT磁力站测试版出来了！
+下一篇
+Git下使用Socket
+
+社交帐号登录:
+
+    微博
+    QQ
+    人人
+    豆瓣
+    更多?
+
+最新最早最热
+
+    2条评论 
+
+    anonymous
+    anonymous
+
+    from binascii import a2b_hex
+    import hashlib
+    s="004f50950256e66f128d528d0773fdefbc298cce"
+    b=a2b_hex(s)
+    sha=hashlib.sha1()
+    sha.update(b"bc"+b+b"torrent")
+    print(sha.hexdigest())
+    以上是python代码

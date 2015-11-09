@@ -1,0 +1,58 @@
+{% extends "base.html" %}
+{% block title %}{% endblock %}
+
+{% block metas %}
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+{% endblock %}
+
+{% block styles %}
+{{block.super}}
+<link rel="shortcut icon" type="image/x-icon" href="/static/favicon.ico" />
+<link rel="stylesheet" type="text/css" href="/static/css/youkubt.css" />
+{% endblock %}
+
+{% block navbar %}
+<nav class="navbar navbar-default navbar-fixed-top">
+		<div class="container">
+			<div class="navbar-header">
+				<button class="navbar-toggle collapsed" type="button" data-toggle="collapse" data-target="#navbar">
+					<span class="sr-only">磁力链接</span>
+					<span class="icon-bar"></span>
+					<span class="icon-bar"></span>
+					<span class="icon-bar"></span>
+				</button>
+				<a class="navbar-brand" href="http://www.btdao.com/">BT岛</a>
+			</div>
+			<div class="navbar-collapse collapse" id="navbar">
+				<ul class="nav navbar-nav">
+					<!--<li><a href="http://www.btdao.com/music">在线音乐</a></li>-->
+					<!--<li><a href="http://taotu.peinituan.com/" target="_blank">套图下载</a></li>-->
+					<li><a href="#wechat" data-toggle="modal" data-target="#wechat">合作推广</a></l>
+					<li><a href="#community" data-toggle="modal" data-target="#community">交流社区</a></li>
+                    <!--lili><a href="http://www.btdao.com/115.html" target="_blank">115网盘帮助</a></li-->
+                    <li><a style="color:red;" href="http://www.rryg.cn" target="_blank">人人云购</a></li>
+				</ul>
+				<ul class="nav navbar-nav navbar-right">
+					<!--li><a href="#red" data-toggle="modal" data-target="#red">红包</a></li-->
+					<li><a href="http://www.btdao.com/message.html" target="_blank">交流求片</a></li>
+				</ul>
+			</div>
+		</div>
+	</nav>
+{% endblock %}
+
+{% block content %}
+<div class="container">
+    <p>No content</p>
+</div>
+{% endblock %}
+
+{% block scripts %}
+{#<script src="//ajax.aspnetcdn.com/ajax/jQuery/jquery-1.11.0.min.js"></script>#}
+{#<script src="//ajax.aspnetcdn.com/ajax/bootstrap/3.1.1/bootstrap.min.js"></script>#}
+{#<script src="/static/js/bootstrap-typeahead.min.js"></script>#}
+{#<script src="/static/js/ssbc.js?v=12"></script>#}
+{#{% include 'analytics.html' %}#}
+{% endblock %}
+
